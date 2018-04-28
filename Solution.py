@@ -29,14 +29,14 @@ def compute_thrust(angle, distance):
 # avoid overshooting the target
 dist_thres = 2000.0
 def adjust_by_distance(in_thrust, distance):
-    dist_discount = min(1.0, distance/dist_thres)
+    dist_discount = min(1.0, (distance/dist_thres)**2)
     return int(in_thrust * dist_discount)
 
 
 # optimize boost calculation to a specific location
 def get_boost_to_loc(x, y, next_checkpoint_x, next_checkpoint_y, next_checkpoint_dist, next_checkpoint_angle, used_boost):
     if next_checkpoint_angle >= 90 or next_checkpoint_angle <= -90:
-        thrust = 20
+        thrust = 0
     else:
         # thrust = 100
         thrust = compute_thrust(next_checkpoint_angle, next_checkpoint_dist)
