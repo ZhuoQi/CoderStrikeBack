@@ -7,14 +7,15 @@ class HoverCraftStatus:
                  chkpt_dist=0, chkpt_angle=0, used_boost=False):
         self.update_status(x, y, next_x, next_y, chkpt_dist, chkpt_angle, used_boost)
 
-    def update_status(self, x, y, next_x, next_y, chkpt_dist, chkpt_angle, used_boost):
+    def update_status(self, x, y, next_x, next_y, chkpt_dist, chkpt_angle, used_boost=None):
         self.x = x
         self.y = y
         self.next_x = next_x
         self.next_y = next_y
         self.chkpt_dist = chkpt_dist
         self.chkpt_angle = chkpt_angle
-        self.used_boost = used_boost
+        if used_boost is not None:
+            self.used_boost = used_boost
 
 # angle and distance based discount of thrust for optimum path
 angle_dist_thres = 4000.0
@@ -55,8 +56,8 @@ while True:
     # next_checkpoint_y: y position of the next check point
     # next_checkpoint_dist: distance to the next checkpoint
     # next_checkpoint_angle: angle between your pod orientation and the direction of the next checkpoint
-    x, y, next_checkpoint_x, next_checkpoint_y, next_checkpoint_dist, next_checkpoint_angle = [int(i) for i in raw_input().split()]
-    opponent_x, opponent_y = [int(i) for i in raw_input().split()]
+    x, y, next_checkpoint_x, next_checkpoint_y, next_checkpoint_dist, next_checkpoint_angle = [int(i) for i in input().split()]
+    opponent_x, opponent_y = [int(i) for i in input().split()]
 
     # Write an action using print
     # To debug: print >> sys.stderr, "Debug messages..."
