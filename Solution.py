@@ -17,19 +17,25 @@ class HoverCraftStatus:
         if used_boost is not None:
             self.used_boost = used_boost
 
+
 # angle and distance based discount of thrust for optimum path
+# The greater the distance, the less we care about accelerating in the wrong direction
+# The greater the angle, the less we accelerate to avoid going longer distance
 angle_dist_thres = 4000.0
 def compute_thrust(angle, distance):
+    abs_angle = np.abs(angle)
     dist_multiplier = min(1.0, distance/angle_dist_thres)
-    angle_based_discount = float(angle)/90.0
+    angle_based_discount = float(abs_angle)/90.0
     dist_adjusted_discount = max(0.0, angle_based_discount * dist_multiplier)
     return int(100.0*(1-dist_adjusted_discount))
     
 
 # avoid overshooting the target
-dist_thres = 2000.0
+dist_thres = 1500.0
 def adjust_by_distance(in_thrust, distance):
-    dist_discount = min(1.0, (distance/dist_thres)**2)
+    high = 1.0
+    low = 0.3
+    dist_discount = max(min(high, (distance/dist_thres)**2), low)
     return int(in_thrust * dist_discount)
 
 
